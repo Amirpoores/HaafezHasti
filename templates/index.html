@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فال حافظ - هافظ هستی</title>
+    <style>
+        body {
+            font-family: 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .fal-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s;
+        }
+        .fal-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        .ghazal-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .interpretation {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌹 فال حافظ 🌹</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            با نام خدا، نیت خود را کرده و دکمه فال را بزنید
+        </p>
+        
+        <button class="fal-button" onclick="getFal()">
+            🎭 گرفتن فال
+        </button>
+        
+        <div id="result" class="result">
+            <div id="loading" class="loading">در حال گرفتن فال...</div>
+            <div id="content" style="display: none;">
+                <h3>غزل شماره: <span id="ghazal-number"></span></h3>
+                <div id="ghazal-text" class="ghazal-text"></div>
+                <div id="interpretation" class="interpretation"></div>
+                <audio id="audio-player" controls style="width: 100%; margin-top: 15px;">
+                    <source id="audio-source" src="" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getFal() {
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+            
+            fetch('/get_fal')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    
+                    document.getElementById('ghazal-number').textContent = data.number;
+                    document.getElementById('ghazal-text').textContent = data.text;
+                    document.getElementById('interpretation').textContent = data.interpretation;
+                    document.getElementById('audio-source').src = data.audio_url;
+                    document.getElementById('audio-player').load();
+                })
+                .catch(error => {
+                    document.getElementById('loading').textContent = 'خطا در گرفتن فال';
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>
