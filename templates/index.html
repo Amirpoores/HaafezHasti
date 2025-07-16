@@ -3,117 +3,695 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فال حافظ - هافظ هستی</title>
+    <title>🌹 هافظ هستی - فال و دیوان حافظ</title>
     <style>
-        body {
-            font-family: 'Tahoma', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
         }
+
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
             margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 5px;
         }
-        .fal-button {
-            background: #4CAF50;
-            color: white;
+
+        .tab-button {
+            background: none;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 25px;
+            padding: 15px 25px;
+            font-size: 16px;
             cursor: pointer;
-            display: block;
-            margin: 20px auto;
+            border-radius: 10px;
             transition: all 0.3s;
+            color: #666;
+            margin: 0 5px;
         }
-        .fal-button:hover {
-            background: #45a049;
+
+        .tab-button.active {
+            background: #667eea;
+            color: white;
             transform: translateY(-2px);
         }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .button-secondary {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .button-info {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+        }
+
         .result {
             display: none;
             margin-top: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
+            padding: 25px;
+            background: #fff;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .ghazal-text {
-            font-size: 18px;
-            line-height: 1.8;
-            margin-bottom: 20px;
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ghazal-header {
             text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
         }
-        .interpretation {
-            background: #e8f5e8;
+
+        .ghazal-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .ghazal-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .ghazal-text {
+            font-size: 1.1em;
+            line-height: 2;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            border: 2px solid #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fdfdfd;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-item {
             padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
         }
+
+        .search-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-item-number {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .search-item-title {
+            color: #2c3e50;
+            margin: 5px 0;
+        }
+
+        .search-item-preview {
+            color: #666;
+            font-size: 0.9em;
+        }
+
         .loading {
             text-align: center;
             color: #666;
             font-style: italic;
+            padding: 20px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌹 فال حافظ 🌹</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px;">
-            با نام خدا، نیت خود را کرده و دکمه فال را بزنید
-        </p>
-        
-        <button class="fal-button" onclick="getFal()">
-            🎭 گرفتن فال
-        </button>
-        
+        <div class="header">
+            <h1>🌹 هافظ هستی</h1>
+            <p>فال و دیوان کامل حافظ شیرازی</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('fal')">🔮 فال حافظ</button>
+            <button class="tab-button" onclick="switchTab('ghazal')">📖 غزل با شماره</button>
+            <button class="tab-button" onclick="switchTab('search')">🔍 جستجو</button>
+            <button class="tab-button" onclick="switchTab('stats')">📊 آمار</button>
+        </div>
+
+        <!-- تب فال -->
+        <div id="fal-tab" class="tab-content active">
+            <div class="action-section">
+                <h3>🔮 فال حافظ</h3>
+                <p>با نام خدا، نیت خود را کرده و یکی از دکمه‌های زیر را انتخاب کنید:</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="button" onclick="getFal()">🎭 فال تصادفی</button>
+                    <button class="button button-secondary" onclick="getRandomNumbers()">🎲 اعداد تصادفی</button>
+                </div>
+                <div id="random-numbers" style="display: none; margin-top: 20px; text-align: center;">
+                    <p>اعداد تصادفی برای فال:</p>
+                    <div id="numbers-list" style="font-size: 1.2em; margin: 10px 0;"></div>
+                    <button class="button button-info" onclick="selectRandomNumber()">انتخاب یکی از اعداد</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- تب غزل با شماره -->
+        <div id="ghazal-tab" class="tab-content">
+            <div class="action-section">
+                <h3>📖 غزل با شماره</h3>
+                <div class="input-group">
+                    <label for="ghazal-number">شماره غزل (1 تا 495):</label>
+                    <input type="number" id="ghazal-number" min="1" max="495" placeholder="مثال: 25">
+                </div>
+                <button class="button" onclick="getSpecificGhazal()">📖 نمایش غزل</button>
+                <button class="button button-secondary" onclick="getRandomGhazal()">🎲 غزل تصادفی</button>
+            </div>
+        </div>
+
+        <!-- تب جستجو -->
+        <div id="search-tab" class="tab-content">
+            <div class="action-section">
+                <h3>🔍 جستجو در غزل‌ها</h3>
+                <div class="input-group">
+                    <label for="search-input">جستجو در عنوان و متن:</label>
+                    <input type="text" id="search-input" placeholder="مثال: عشق، گل، باد">
+                </div>
+                <button class="button" onclick="searchGhazals()">🔍 جستجو</button>
+                <button class="button button-info" onclick="clearSearch()">🗑️ پاک کردن</button>
+            </div>
+        </div>
+
+        <!-- تب آمار -->
+        <div id="stats-tab" class="tab-content">
+            <div class="action-section">
+                <h3>📊 آمار دیوان حافظ</h3>
+                <button class="button" onclick="loadStats()">📊 نمایش آمار</button>
+            </div>
+        </div>
+
+        <!-- نتایج -->
         <div id="result" class="result">
-            <div id="loading" class="loading">در حال گرفتن فال...</div>
+            <div id="loading" class="loading">در حال بارگذاری...</div>
             <div id="content" style="display: none;">
-                <h3>غزل شماره: <span id="ghazal-number"></span></h3>
+                <div class="ghazal-header">
+                    <div class="ghazal-number">غزل شماره: <span id="ghazal-number-display"></span></div>
+                    <div class="ghazal-title" id="ghazal-title"></div>
+                </div>
                 <div id="ghazal-text" class="ghazal-text"></div>
-                <div id="interpretation" class="interpretation"></div>
-                <audio id="audio-player" controls style="width: 100%; margin-top: 15px;">
+                <div id="interpretation" style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 15px 0;"></div>
+                <audio id="audio-player" class="audio-player" controls>
                     <source id="audio-source" src="" type="audio/mpeg">
+                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
                 </audio>
             </div>
+        </div>
+
+        <!-- نتایج جستجو -->
+        <div id="search-results" class="result">
+            <h3>نتایج جستجو:</h3>
+            <div id="search-content" class="search-results"></div>
+        </div>
+
+        <!-- آمار -->
+        <div id="stats-results" class="result">
+            <h3>آمار دیوان حافظ:</h3>
+            <div id="stats-content" class="stats"></div>
         </div>
     </div>
 
     <script>
-        function getFal() {
-            document.getElementById('result').style.display = 'block';
+        // تغییر تب
+        function switchTab(tabName) {
+            // مخفی کردن همه تب‌ها
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // مخفی کردن نتایج
+            document.querySelectorAll('.result').forEach(result => {
+                result.classList.remove('show');
+            });
+            
+            // غیرفعال کردن همه دکمه‌ها
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // فعال کردن تب و دکمه انتخاب شده
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // نمایش نتیجه
+        function showResult(contentHtml) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('content').innerHTML = contentHtml;
+            document.getElementById('result').classList.add('show');
+        }
+
+        // نمایش loading
+        function showLoading() {
+            document.getElementById('result').classList.add('show');
             document.getElementById('loading').style.display = 'block';
             document.getElementById('content').style.display = 'none';
+        }
+
+        // فال تصادفی
+        function getFal() {
+            showLoading();
             
             fetch('/get_fal')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('content').style.display = 'block';
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
                     
-                    document.getElementById('ghazal-number').textContent = data.number;
-                    document.getElementById('ghazal-text').textContent = data.text;
-                    document.getElementById('interpretation').textContent = data.interpretation;
-                    document.getElementById('audio-source').src = data.audio_url;
-                    document.getElementById('audio-player').load();
+                    const contentHtml = `
+                        <div class="ghazal-header">
+                            <div class="ghazal-number">غزل شماره: ${data.number}</div>
+                            <div class="ghazal-title">${data.title}</div>
+                        </div>
+                        <div class="ghazal-text">${data.text}</div>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <strong>🔮 تفسیر فال:</strong><br>
+                            ${data.interpretation}
+                        </div>
+                        <audio class="audio-player" controls>
+                            <source src="${data.audio_url}" type="audio/mpeg">
+                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                        </audio>
+                    `;
+                    
+                    showResult(contentHtml);
                 })
                 .catch(error => {
-                    document.getElementById('loading').textContent = 'خطا در گرفتن فال';
-                    console.error('Error:', error);
+                    showError('خطا در دریافت فال: ' + error.message);
                 });
         }
+
+        // غزل با شماره
+        function getSpecificGhazal() {
+            const number = document.getElementById('ghazal-number').value;
+            
+            if (!number || number < 1 || number > 495) {
+                showError('لطفاً شماره غزل را بین 1 تا 495 وارد کنید');
+                return;
+            }
+            
+            showLoading();
+            
+            fetch(`/get_ghazal/${number}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const contentHtml = `
+                        <div class="ghazal-header">
+                            <div class="ghazal-number">غزل شماره: ${data.number}</div>
+                            <div class="ghazal-title">${data.title}</div>
+                        </div>
+                        <div class="ghazal-text">${data.text}</div>
+                        <div style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <strong>📖 درباره غزل:</strong><br>
+                            ${data.interpretation}
+                        </div>
+                        <audio class="audio-player" controls>
+                            <source src="${data.audio_url}" type="audio/mpeg">
+                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                        </audio>
+                    `;
+                    
+                    showResult(contentHtml);
+                })
+                .catch(error => {
+                    showError('خطا در دریافت غزل: ' + error.message);
+                });
+        }
+
+        // غزل تصادفی
+        function getRandomGhazal() {
+            const randomNumber = Math.floor(Math.random() * 495) + 1;
+            document.getElementById('ghazal-number').value = randomNumber;
+            getSpecificGhazal();
+        }
+
+        // اعداد تصادفی
+        function getRandomNumbers() {
+            fetch('/random_numbers')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('numbers-list').textContent = data.numbers.join(' • ');
+                    document.getElementById('random-numbers').style.display = 'block';
+                })
+                .catch(error => {
+                    showError('خطا در دریافت اعداد تصادفی: ' + error.message);
+                });
+        }
+
+        // انتخاب عدد تصادفی
+        function selectRandomNumber() {
+            fetch('/random_numbers')
+                .then(response => response.json())
+                .then(data => {
+                    const randomIndex = Math.floor(Math.random() * data.numbers.length);
+                    const selectedNumber = data.numbers[randomIndex];
+                    
+                    showLoading();
+                    
+                    fetch(`/get_ghazal/${selectedNumber}`)
+                        .then(response => response.json())
+                        .then(ghazalData => {
+                            if (ghazalData.error) {
+                                showError(ghazalData.error);
+                                return;
+                            }
+                            
+                            const contentHtml = `
+                                <div class="ghazal-header">
+                                    <div class="ghazal-number">🎲 عدد انتخاب شده: ${selectedNumber}</div>
+                                    <div class="ghazal-title">${ghazalData.title}</div>
+                                </div>
+                                <div class="ghazal-text">${ghazalData.text}</div>
+                                <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                                    <strong>🎲 فال با عدد تصادفی:</strong><br>
+                                    ${ghazalData.interpretation}
+                                </div>
+                                <audio class="audio-player" controls>
+                                    <source src="${ghazalData.audio_url}" type="audio/mpeg">
+                                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                                </audio>
+                            `;
+                            
+                            showResult(contentHtml);
+                        });
+                });
+        }
+
+        // جستجو
+        function searchGhazals() {
+            const query = document.getElementById('search-input').value.trim();
+            
+            if (!query) {
+                showError('لطفاً متن جستجو را وارد کنید');
+                return;
+            }
+            
+            fetch(`/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    let searchHtml = `<p>نتایج جستجو برای: "<strong>${data.query}</strong>" (${data.count} نتیجه)</p>`;
+                    
+                    if (data.results.length === 0) {
+                        searchHtml += '<p>هیچ نتیجه‌ای یافت نشد.</p>';
+                    } else {
+                        data.results.forEach(item => {
+                            searchHtml += `
+                                <div class="search-item" onclick="loadGhazalFromSearch(${item.number})">
+                                    <div class="search-item-number">غزل ${item.number}</div>
+                                    <div class="search-item-title">${item.title}</div>
+                                    <div class="search-item-preview">${item.preview}</div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    document.getElementById('search-content').innerHTML = searchHtml;
+                    document.getElementById('search-results').classList.add('show');
+                })
+                .catch(error => {
+                    showError('خطا در جستجو: ' + error.message);
+                });
+        }
+
+        // بارگذاری غزل از نتایج جستجو
+        function loadGhazalFromSearch(number) {
+            showLoading();
+            
+            fetch(`/get_ghazal/${number}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const contentHtml = `
+                        <div class="ghazal-header">
+                            <div class="ghazal-number">غزل شماره: ${data.number}</div>
+                            <div class="ghazal-title">${data.title}</div>
+                        </div>
+                        <div class="ghazal-text">${data.text}</div>
+                        <div style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <strong>📖 درباره غزل:</strong><br>
+                            ${data.interpretation}
+                        </div>
+                        <audio class="audio-player" controls>
+                            <source src="${data.audio_url}" type="audio/mpeg">
+                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                        </audio>
+                    `;
+                    
+                    showResult(contentHtml);
+                })
+                .catch(error => {
+                    showError('خطا در بارگذاری غزل: ' + error.message);
+                });
+        }
+
+        // پاک کردن جستجو
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').classList.remove('show');
+        }
+
+        // بارگذاری آمار
+        function loadStats() {
+            fetch('/stats')
+                .then(response => response.json())
+                .then(data => {
+                    const statsHtml = `
+                        <div class="stat-item">
+                            <div class="stat-number">${data.total_ghazals}</div>
+                            <div class="stat-label">تعداد غزل‌ها</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${data.average_verses}</div>
+                            <div class="stat-label">میانگین ابیات</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${data.latest_ghazal.number || 'N/A'}</div>
+                            <div class="stat-label">آخرین غزل</div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('stats-content').innerHTML = statsHtml;
+                    document.getElementById('stats-results').classList.add('show');
+                })
+                .catch(error => {
+                    showError('خطا در بارگذاری آمار: ' + error.message);
+                });
+        }
+
+        // نمایش خطا
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('content').innerHTML = `<div class="error">${message}</div>`;
+            document.getElementById('result').classList.add('show');
+        }
+
+        // Event listeners
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchGhazals();
+            }
+        });
+
+        document.getElementById('ghazal-number').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getSpecificGhazal();
+            }
+        });
     </script>
 </body>
 </html>
