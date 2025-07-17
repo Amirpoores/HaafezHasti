@@ -11,71 +11,137 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #28a745;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --accent-color: #10b981;
+            --text-color: #f1f5f9;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.95);
+            --border-color: #334155;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
         body {
             font-family: 'Vazir', 'Tahoma', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
             padding: 20px;
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
         }
 
         .header h1 {
-            color: #2c3e50;
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .header p {
-            color: #7f8c8d;
-            font-size: 1.1em;
-            margin-bottom: 20px;
+        .header-controls {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 30px;
-            background: #f8f9fa;
+            background: var(--bg-color);
             border-radius: 15px;
             padding: 5px;
+            overflow-x: auto;
         }
 
         .tab-button {
             background: none;
             border: none;
-            padding: 15px 25px;
-            font-size: 16px;
+            padding: 15px 20px;
+            font-size: 14px;
             cursor: pointer;
             border-radius: 10px;
             transition: all 0.3s;
-            color: #666;
-            margin: 0 5px;
+            color: var(--text-color);
+            margin: 0 3px;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab-button:hover::before {
+            left: 100%;
         }
 
         .tab-button.active {
-            background: #667eea;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn 0.5s ease-in;
         }
 
         .tab-content.active {
@@ -83,15 +149,27 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
         .action-section {
-            background: #f8f9fa;
+            background: var(--bg-color);
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .action-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.3em;
         }
 
         .input-group {
@@ -101,26 +179,29 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: #2c3e50;
             font-weight: bold;
+            color: var(--text-color);
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--border-color);
             border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
 
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
             padding: 12px 25px;
@@ -129,6 +210,23 @@
             cursor: pointer;
             transition: all 0.3s;
             margin: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
         }
 
         .button:hover {
@@ -137,21 +235,58 @@
         }
 
         .button-secondary {
-            background: linear-gradient(45deg, #28a745, #20c997);
+            background: linear-gradient(45deg, var(--accent-color), #20c997);
         }
 
         .button-info {
             background: linear-gradient(45deg, #17a2b8, #138496);
         }
 
+        .button-warning {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+
+        .mood-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mood-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mood-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .mood-card.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .mood-card .emoji {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
         .result {
             display: none;
             margin-top: 30px;
             padding: 25px;
-            background: #fff;
+            background: var(--card-bg);
             border-radius: 15px;
-            border: 2px solid #e9ecef;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
         }
 
         .result.show {
@@ -159,45 +294,207 @@
             animation: slideIn 0.5s ease-out;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .ghazal-header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
         }
 
         .ghazal-number {
-            background: #667eea;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 14px;
             display: inline-block;
             margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .ghazal-actions {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .action-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
         .ghazal-title {
-            color: #2c3e50;
             font-size: 1.3em;
             margin-bottom: 5px;
+            color: var(--primary-color);
         }
 
         .ghazal-text {
             font-size: 1.1em;
             line-height: 2;
             text-align: center;
-            color: #2c3e50;
             margin-bottom: 20px;
             white-space: pre-line;
-            border: 2px solid #f8f9fa;
+            border: 2px solid var(--border-color);
             padding: 20px;
             border-radius: 10px;
-            background: #fdfdfd;
+            background: var(--bg-color);
+        }
+
+        .interpretation {
+            background: linear-gradient(135deg, #e8f5e8, #f0fff0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        [data-theme="dark"] .interpretation {
+            background: linear-gradient(135deg, #064e3b, #065f46);
+        }
+
+        .history-section {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: var(--bg-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .history-date {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .favorite-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading::after {
+            content: '⏳';
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #fcc;
+            border-left: 4px solid #c33;
+        }
+
+        .success {
+            background: #efe;
+            color: #383;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #cfc;
+            border-left: 4px solid #383;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+            outline: none;
         }
 
         .search-results {
@@ -207,23 +504,26 @@
 
         .search-item {
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            border-radius: 5px;
+            margin-bottom: 5px;
         }
 
         .search-item:hover {
-            background: #f8f9fa;
+            background: var(--bg-color);
+            transform: translateX(5px);
         }
 
         .search-item-number {
-            color: #667eea;
+            color: var(--primary-color);
             font-weight: bold;
         }
 
         .search-item-title {
-            color: #2c3e50;
             margin: 5px 0;
+            font-size: 1.1em;
         }
 
         .search-item-preview {
@@ -231,79 +531,130 @@
             font-size: 0.9em;
         }
 
-        .loading {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 20px;
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
         }
 
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border: 1px solid #f5c6cb;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-            padding: 20px;
-            background: #e3f2fd;
-            border-radius: 10px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #1976d2;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .audio-player {
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 10px;
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 15px;
                 margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
             }
             
             .tabs {
                 flex-direction: column;
+                gap: 5px;
             }
             
             .tab-button {
-                margin: 5px 0;
+                margin: 0;
+                padding: 12px;
             }
+            
+            .mood-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ghazal-actions {
+                position: static;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            
+            .header-controls {
+                position: static;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 0.3s;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.success {
+            border-color: var(--accent-color);
+            background: #f0fff4;
+        }
+
+        .notification.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <div class="header-controls">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                <button class="theme-toggle" onclick="showNotification('به روزرسانی شد!', 'success')">🔔</button>
+            </div>
             <h1>🌹 هافظ هستی</h1>
-            <p>فال و دیوان کامل حافظ شیرازی</p>
+            <p>فال و دیوان کامل حافظ شیرازی با تفسیر هوش مصنوعی</p>
         </div>
 
         <div class="tabs">
             <button class="tab-button active" onclick="switchTab('fal')">🔮 فال حافظ</button>
+            <button class="tab-button" onclick="switchTab('mood')">🎭 فال حالت‌محور</button>
             <button class="tab-button" onclick="switchTab('ghazal')">📖 غزل با شماره</button>
             <button class="tab-button" onclick="switchTab('search')">🔍 جستجو</button>
+            <button class="tab-button" onclick="switchTab('history')">📜 تاریخچه</button>
+            <button class="tab-button" onclick="switchTab('favorites')">⭐ علاقه‌مندی‌ها</button>
             <button class="tab-button" onclick="switchTab('stats')">📊 آمار</button>
         </div>
 
@@ -315,11 +666,45 @@
                 <div style="text-align: center; margin-top: 20px;">
                     <button class="button" onclick="getFal()">🎭 فال تصادفی</button>
                     <button class="button button-secondary" onclick="getRandomNumbers()">🎲 اعداد تصادفی</button>
+                    <button class="button button-info" onclick="getDailyGhazal()">📅 غزل روزانه</button>
                 </div>
                 <div id="random-numbers" style="display: none; margin-top: 20px; text-align: center;">
                     <p>اعداد تصادفی برای فال:</p>
-                    <div id="numbers-list" style="font-size: 1.2em; margin: 10px 0;"></div>
+                    <div id="numbers-list" style="font-size: 1.2em; margin: 10px 0; padding: 10px; background: var(--bg-color); border-radius: 10px;"></div>
                     <button class="button button-info" onclick="selectRandomNumber()">انتخاب یکی از اعداد</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- تب فال حالت‌محور -->
+        <div id="mood-tab" class="tab-content">
+            <div class="action-section">
+                <h3>🎭 فال بر اساس حالت</h3>
+                <p>ابتدا حالت فعلی خود را انتخاب کنید:</p>
+                <div class="mood-selector">
+                    <div class="mood-card" data-mood="happy">
+                        <div class="emoji">😊</div>
+                        <div>خوشحال</div>
+                    </div>
+                    <div class="mood-card" data-mood="sad">
+                        <div class="emoji">😢</div>
+                        <div>غمگین</div>
+                    </div>
+                    <div class="mood-card" data-mood="confused">
+                        <div class="emoji">🤔</div>
+                        <div>سردرگم</div>
+                    </div>
+                    <div class="mood-card" data-mood="hopeful">
+                        <div class="emoji">🌟</div>
+                        <div>امیدوار</div>
+                    </div>
+                    <div class="mood-card" data-mood="worried">
+                        <div class="emoji">😰</div>
+                        <div>نگران</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="button" onclick="getMoodBasedFal()">🎯 فال بر اساس حالت</button>
                 </div>
             </div>
         </div>
@@ -332,8 +717,10 @@
                     <label for="ghazal-number">شماره غزل (1 تا 495):</label>
                     <input type="number" id="ghazal-number" min="1" max="495" placeholder="مثال: 25">
                 </div>
-                <button class="button" onclick="getSpecificGhazal()">📖 نمایش غزل</button>
-                <button class="button button-secondary" onclick="getRandomGhazal()">🎲 غزل تصادفی</button>
+                <div style="text-align: center;">
+                    <button class="button" onclick="getSpecificGhazal()">📖 نمایش غزل</button>
+                    <button class="button button-secondary" onclick="getRandomGhazal()">🎲 غزل تصادفی</button>
+                </div>
             </div>
         </div>
 
@@ -345,8 +732,34 @@
                     <label for="search-input">جستجو در عنوان و متن:</label>
                     <input type="text" id="search-input" placeholder="مثال: عشق، گل، باد">
                 </div>
-                <button class="button" onclick="searchGhazals()">🔍 جستجو</button>
-                <button class="button button-info" onclick="clearSearch()">🗑️ پاک کردن</button>
+                <div style="text-align: center;">
+                    <button class="button" onclick="searchGhazals()">🔍 جستجو</button>
+                    <button class="button button-info" onclick="clearSearch()">🗑️ پاک کردن</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- تب تاریخچه -->
+        <div id="history-tab" class="tab-content">
+            <div class="action-section">
+                <h3>📜 تاریخچه فال‌ها</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button class="button" onclick="loadHistory()">📋 نمایش تاریخچه</button>
+                    <button class="button button-warning" onclick="clearHistory()">🗑️ پاک کردن تاریخچه</button>
+                </div>
+                <div id="history-list" class="history-section"></div>
+            </div>
+        </div>
+
+        <!-- تب علاقه‌مندی‌ها -->
+        <div id="favorites-tab" class="tab-content">
+            <div class="action-section">
+                <h3>⭐ غزل‌های مورد علاقه</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button class="button" onclick="loadFavorites()">📋 نمایش علاقه‌مندی‌ها</button>
+                    <button class="button button-warning" onclick="clearFavorites()">🗑️ پاک کردن همه</button>
+                </div>
+                <div id="favorites-list" class="favorites-grid"></div>
             </div>
         </div>
 
@@ -354,41 +767,67 @@
         <div id="stats-tab" class="tab-content">
             <div class="action-section">
                 <h3>📊 آمار دیوان حافظ</h3>
-                <button class="button" onclick="loadStats()">📊 نمایش آمار</button>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button class="button" onclick="loadStats()">📊 نمایش آمار</button>
+                    <button class="button button-info" onclick="loadPersonalStats()">👤 آمار شخصی</button>
+                </div>
+                <div id="stats-content" class="stats-grid"></div>
             </div>
         </div>
 
         <!-- نتایج -->
         <div id="result" class="result">
             <div id="loading" class="loading">در حال بارگذاری...</div>
-            <div id="content" style="display: none;">
-                <div class="ghazal-header">
-                    <div class="ghazal-number">غزل شماره: <span id="ghazal-number-display"></span></div>
-                    <div class="ghazal-title" id="ghazal-title"></div>
-                </div>
-                <div id="ghazal-text" class="ghazal-text"></div>
-                <div id="interpretation" style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 15px 0;"></div>
-                <audio id="audio-player" class="audio-player" controls>
-                    <source id="audio-source" src="" type="audio/mpeg">
-                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
-                </audio>
-            </div>
+            <div id="content" style="display: none;"></div>
         </div>
 
         <!-- نتایج جستجو -->
         <div id="search-results" class="result">
-            <h3>نتایج جستجو:</h3>
+            <h3>🔍 نتایج جستجو:</h3>
             <div id="search-content" class="search-results"></div>
-        </div>
-
-        <!-- آمار -->
-        <div id="stats-results" class="result">
-            <h3>آمار دیوان حافظ:</h3>
-            <div id="stats-content" class="stats"></div>
         </div>
     </div>
 
+    <!-- دکمه شناور -->
+    <button class="floating-btn" onclick="scrollToTop()" title="برگشت به بالا">⬆️</button>
+
+    <!-- نوتیفیکیشن -->
+    <div id="notification" class="notification"></div>
+
     <script>
+        // متغیرهای سراسری
+        let currentMood = null;
+        let currentGhazal = null;
+        let history = JSON.parse(localStorage.getItem('falHistory') || '[]');
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let theme = localStorage.getItem('theme') || 'light';
+
+        // اعمال تم
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // تغییر تم
+        function toggleTheme() {
+            theme = theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = theme === 'light' ? '🌙' : '☀️';
+            
+            showNotification(`تم ${theme === 'light' ? 'روشن' : 'تیره'} فعال شد`, 'success');
+        }
+
+        // نوتیفیکیشن
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
         // تغییر تب
         function switchTab(tabName) {
             // مخفی کردن همه تب‌ها
@@ -411,6 +850,22 @@
             event.target.classList.add('active');
         }
 
+        // انتخاب حالت
+        document.querySelectorAll('.mood-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.mood-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                currentMood = this.dataset.mood;
+            });
+        });
+
+        // نمایش loading
+        function showLoading() {
+            document.getElementById('result').classList.add('show');
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+        }
+
         // نمایش نتیجه
         function showResult(contentHtml) {
             document.getElementById('loading').style.display = 'none';
@@ -419,11 +874,59 @@
             document.getElementById('result').classList.add('show');
         }
 
-        // نمایش loading
-        function showLoading() {
-            document.getElementById('result').classList.add('show');
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('content').style.display = 'none';
+        // ذخیره در تاریخچه
+        function saveToHistory(ghazal) {
+            const historyItem = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('fa-IR'),
+                time: new Date().toLocaleTimeString('fa-IR'),
+                ghazal: ghazal,
+                mood: currentMood
+            };
+            
+            history.unshift(historyItem);
+            if (history.length > 50) history.pop(); // حداکثر 50 آیتم
+            
+            localStorage.setItem('falHistory', JSON.stringify(history));
+        }
+
+        // toggle bookmark
+        function toggleBookmark(ghazalNumber) {
+            const index = favorites.findIndex(f => f.number === ghazalNumber);
+            const btn = document.querySelector(`[data-bookmark="${ghazalNumber}"]`);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                btn.classList.remove('active');
+                btn.textContent = '⭐';
+                showNotification('از علاقه‌مندی‌ها حذف شد', 'success');
+            } else {
+                favorites.push(currentGhazal);
+                btn.classList.add('active');
+                btn.textContent = '⭐';
+                showNotification('به علاقه‌مندی‌ها اضافه شد', 'success');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // اشتراک‌گذاری
+        function shareGhazal(ghazal) {
+            const shareData = {
+                title: `فال حافظ - ${ghazal.title}`,
+                text: `${ghazal.text}\n\n🌹 از هافظ هستی`,
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData);
+            } else {
+                // کپی در کلیپ‌بورد
+                const textToCopy = `${ghazal.title}\n\n${ghazal.text}\n\n🌹 از هافظ هستی\n${window.location.href}`;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showNotification('متن کپی شد!', 'success');
+                });
+            }
         }
 
         // فال تصادفی
@@ -438,15 +941,29 @@
                         return;
                     }
                     
+                    currentGhazal = data;
+                    saveToHistory(data);
+                    
+                    const isBookmarked = favorites.some(f => f.number === data.number);
+                    
                     const contentHtml = `
                         <div class="ghazal-header">
+                            <div class="ghazal-actions">
+                                <button class="action-btn ${isBookmarked ? 'active' : ''}" 
+                                        data-bookmark="${data.number}" 
+                                        onclick="toggleBookmark(${data.number})" 
+                                        title="علاقه‌مندی‌ها">
+                                    ${isBookmarked ? '⭐' : '⭐'}
+                                </button>
+                                <button class="action-btn" onclick="shareGhazal(currentGhazal)" title="اشتراک‌گذاری">📤</button>
+                            </div>
                             <div class="ghazal-number">غزل شماره: ${data.number}</div>
                             <div class="ghazal-title">${data.title}</div>
                         </div>
                         <div class="ghazal-text">${data.text}</div>
-                        <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <div class="interpretation">
                             <strong>🔮 تفسیر فال:</strong><br>
-                            ${data.interpretation}
+                            ${data.interpretation || 'در حال دریافت تفسیر...'}
                         </div>
                         <audio class="audio-player" controls>
                             <source src="${data.audio_url}" type="audio/mpeg">
@@ -455,10 +972,118 @@
                     `;
                     
                     showResult(contentHtml);
+                    
+                    // دریافت تفسیر AI
+                    if (data.text) {
+                        getAIInterpretation(data.text, data.number, 'fal');
+                    }
                 })
                 .catch(error => {
                     showError('خطا در دریافت فال: ' + error.message);
                 });
+        }
+
+        // دریافت تفسیر AI
+        function getAIInterpretation(text, number, type = 'fal') {
+            const mood = type === 'mood' ? currentMood : null;
+            
+            fetch('/get_ai_interpretation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: text,
+                    number: number,
+                    type: type,
+                    mood: mood
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.interpretation) {
+                    const interpretationDiv = document.querySelector('.interpretation');
+                    if (interpretationDiv) {
+                        interpretationDiv.innerHTML = `
+                            <strong>🔮 تفسیر هوش مصنوعی:</strong><br>
+                            ${data.interpretation}
+                        `;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('خطا در دریافت تفسیر AI:', error);
+            });
+        }
+
+        // فال حالت‌محور
+        function getMoodBasedFal() {
+            if (!currentMood) {
+                showError('لطفاً ابتدا حالت خود را انتخاب کنید');
+                return;
+            }
+            
+            showLoading();
+            
+            fetch('/get_fal')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    currentGhazal = data;
+                    saveToHistory(data);
+                    
+                    const isBookmarked = favorites.some(f => f.number === data.number);
+                    
+                    const contentHtml = `
+                        <div class="ghazal-header">
+                            <div class="ghazal-actions">
+                                <button class="action-btn ${isBookmarked ? 'active' : ''}" 
+                                        data-bookmark="${data.number}" 
+                                        onclick="toggleBookmark(${data.number})" 
+                                        title="علاقه‌مندی‌ها">
+                                    ${isBookmarked ? '⭐' : '⭐'}
+                                </button>
+                                <button class="action-btn" onclick="shareGhazal(currentGhazal)" title="اشتراک‌گذاری">📤</button>
+                            </div>
+                            <div class="ghazal-number">🎭 فال حالت‌محور - غزل ${data.number}</div>
+                            <div class="ghazal-title">${data.title}</div>
+                        </div>
+                        <div class="ghazal-text">${data.text}</div>
+                        <div class="interpretation">
+                            <strong>🎭 تفسیر برای حالت شما:</strong><br>
+                            در حال دریافت تفسیر مخصوص...
+                        </div>
+                        <audio class="audio-player" controls>
+                            <source src="${data.audio_url}" type="audio/mpeg">
+                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                        </audio>
+                    `;
+                    
+                    showResult(contentHtml);
+                    
+                    // دریافت تفسیر حالت‌محور
+                    if (data.text) {
+                        getAIInterpretation(data.text, data.number, 'mood');
+                    }
+                })
+                .catch(error => {
+                    showError('خطا در دریافت فال: ' + error.message);
+                });
+        }
+
+        // غزل روزانه
+        function getDailyGhazal() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const dailyNumber = (dayOfYear % 495) + 1;
+            
+            document.getElementById('ghazal-number').value = dailyNumber;
+            switchTab('ghazal');
+            getSpecificGhazal();
         }
 
         // غزل با شماره
@@ -480,13 +1105,27 @@
                         return;
                     }
                     
+                    currentGhazal = data;
+                    saveToHistory(data);
+                    
+                    const isBookmarked = favorites.some(f => f.number === data.number);
+                    
                     const contentHtml = `
                         <div class="ghazal-header">
+                            <div class="ghazal-actions">
+                                <button class="action-btn ${isBookmarked ? 'active' : ''}" 
+                                        data-bookmark="${data.number}" 
+                                        onclick="toggleBookmark(${data.number})" 
+                                        title="علاقه‌مندی‌ها">
+                                    ${isBookmarked ? '⭐' : '⭐'}
+                                </button>
+                                <button class="action-btn" onclick="shareGhazal(currentGhazal)" title="اشتراک‌گذاری">📤</button>
+                            </div>
                             <div class="ghazal-number">غزل شماره: ${data.number}</div>
                             <div class="ghazal-title">${data.title}</div>
                         </div>
                         <div class="ghazal-text">${data.text}</div>
-                        <div style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <div class="interpretation">
                             <strong>📖 درباره غزل:</strong><br>
                             ${data.interpretation}
                         </div>
@@ -497,6 +1136,11 @@
                     `;
                     
                     showResult(contentHtml);
+                    
+                    // دریافت تفسیر AI
+                    if (data.text) {
+                        getAIInterpretation(data.text, data.number, 'analysis');
+                    }
                 })
                 .catch(error => {
                     showError('خطا در دریافت غزل: ' + error.message);
@@ -515,7 +1159,8 @@
             fetch('/random_numbers')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('numbers-list').textContent = data.numbers.join(' • ');
+                    document.getElementById('numbers-list').innerHTML = 
+                        data.numbers.map(num => `<span style="background: var(--primary-color); color: white; padding: 5px 10px; border-radius: 15px; margin: 0 5px;">${num}</span>`).join('');
                     document.getElementById('random-numbers').style.display = 'block';
                 })
                 .catch(error => {
@@ -531,34 +1176,9 @@
                     const randomIndex = Math.floor(Math.random() * data.numbers.length);
                     const selectedNumber = data.numbers[randomIndex];
                     
-                    showLoading();
-                    
-                    fetch(`/get_ghazal/${selectedNumber}`)
-                        .then(response => response.json())
-                        .then(ghazalData => {
-                            if (ghazalData.error) {
-                                showError(ghazalData.error);
-                                return;
-                            }
-                            
-                            const contentHtml = `
-                                <div class="ghazal-header">
-                                    <div class="ghazal-number">🎲 عدد انتخاب شده: ${selectedNumber}</div>
-                                    <div class="ghazal-title">${ghazalData.title}</div>
-                                </div>
-                                <div class="ghazal-text">${ghazalData.text}</div>
-                                <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                                    <strong>🎲 فال با عدد تصادفی:</strong><br>
-                                    ${ghazalData.interpretation}
-                                </div>
-                                <audio class="audio-player" controls>
-                                    <source src="${ghazalData.audio_url}" type="audio/mpeg">
-                                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
-                                </audio>
-                            `;
-                            
-                            showResult(contentHtml);
-                        });
+                    document.getElementById('ghazal-number').value = selectedNumber;
+                    switchTab('ghazal');
+                    getSpecificGhazal();
                 });
         }
 
@@ -603,39 +1223,11 @@
                 });
         }
 
-        // بارگذاری غزل از نتایج جستجو
+        // بارگذاری غزل از جستجو
         function loadGhazalFromSearch(number) {
-            showLoading();
-            
-            fetch(`/get_ghazal/${number}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        showError(data.error);
-                        return;
-                    }
-                    
-                    const contentHtml = `
-                        <div class="ghazal-header">
-                            <div class="ghazal-number">غزل شماره: ${data.number}</div>
-                            <div class="ghazal-title">${data.title}</div>
-                        </div>
-                        <div class="ghazal-text">${data.text}</div>
-                        <div style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                            <strong>📖 درباره غزل:</strong><br>
-                            ${data.interpretation}
-                        </div>
-                        <audio class="audio-player" controls>
-                            <source src="${data.audio_url}" type="audio/mpeg">
-                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
-                        </audio>
-                    `;
-                    
-                    showResult(contentHtml);
-                })
-                .catch(error => {
-                    showError('خطا در بارگذاری غزل: ' + error.message);
-                });
+            document.getElementById('ghazal-number').value = number;
+            switchTab('ghazal');
+            getSpecificGhazal();
         }
 
         // پاک کردن جستجو
@@ -644,32 +1236,184 @@
             document.getElementById('search-results').classList.remove('show');
         }
 
+        // بارگذاری تاریخچه
+        function loadHistory() {
+            const historyList = document.getElementById('history-list');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<p>تاریخچه‌ای موجود نیست.</p>';
+                return;
+            }
+            
+            let historyHtml = '';
+            history.forEach(item => {
+                historyHtml += `
+                    <div class="history-item" onclick="loadGhazalFromHistory(${item.ghazal.number})">
+                        <div class="history-date">${item.date} - ${item.time}</div>
+                        <div><strong>غزل ${item.ghazal.number}:</strong> ${item.ghazal.title}</div>
+                        ${item.mood ? `<div style="font-size: 0.9em; color: #666;">حالت: ${getMoodName(item.mood)}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHtml;
+        }
+
+        // بارگذاری غزل از تاریخچه
+        function loadGhazalFromHistory(number) {
+            document.getElementById('ghazal-number').value = number;
+            switchTab('ghazal');
+            getSpecificGhazal();
+        }
+
+        // پاک کردن تاریخچه
+        function clearHistory() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید تاریخچه را پاک کنید؟')) {
+                history = [];
+                localStorage.removeItem('falHistory');
+                document.getElementById('history-list').innerHTML = '<p>تاریخچه پاک شد.</p>';
+                showNotification('تاریخچه پاک شد', 'success');
+            }
+        }
+
+        // بارگذاری علاقه‌مندی‌ها
+        function loadFavorites() {
+            const favoritesList = document.getElementById('favorites-list');
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<p>غزلی به علاقه‌مندی‌ها اضافه نشده است.</p>';
+                return;
+            }
+            
+            let favoritesHtml = '';
+            favorites.forEach(item => {
+                favoritesHtml += `
+                    <div class="favorite-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <strong>غزل ${item.number}</strong>
+                            <button class="action-btn" onclick="removeFavorite(${item.number})" title="حذف">❌</button>
+                        </div>
+                        <div style="margin-bottom: 10px;">${item.title}</div>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">${item.text.substring(0, 100)}...</div>
+                        <button class="button" onclick="loadFavoriteGhazal(${item.number})">📖 مشاهده کامل</button>
+                    </div>
+                `;
+            });
+            
+            favoritesList.innerHTML = favoritesHtml;
+        }
+
+        // حذف از علاقه‌مندی‌ها
+        function removeFavorite(number) {
+            const index = favorites.findIndex(f => f.number === number);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                loadFavorites();
+                showNotification('از علاقه‌مندی‌ها حذف شد', 'success');
+            }
+        }
+
+        // بارگذاری غزل مورد علاقه
+        function loadFavoriteGhazal(number) {
+            document.getElementById('ghazal-number').value = number;
+            switchTab('ghazal');
+            getSpecificGhazal();
+        }
+
+        // پاک کردن علاقه‌مندی‌ها
+        function clearFavorites() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید تمام علاقه‌مندی‌ها را پاک کنید؟')) {
+                favorites = [];
+                localStorage.removeItem('favorites');
+                document.getElementById('favorites-list').innerHTML = '<p>علاقه‌مندی‌ها پاک شد.</p>';
+                showNotification('علاقه‌مندی‌ها پاک شد', 'success');
+            }
+        }
+
         // بارگذاری آمار
         function loadStats() {
             fetch('/stats')
                 .then(response => response.json())
                 .then(data => {
                     const statsHtml = `
-                        <div class="stat-item">
+                        <div class="stat-card">
                             <div class="stat-number">${data.total_ghazals}</div>
                             <div class="stat-label">تعداد غزل‌ها</div>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-card">
                             <div class="stat-number">${data.average_verses}</div>
                             <div class="stat-label">میانگین ابیات</div>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-card">
                             <div class="stat-number">${data.latest_ghazal.number || 'N/A'}</div>
                             <div class="stat-label">آخرین غزل</div>
                         </div>
                     `;
                     
                     document.getElementById('stats-content').innerHTML = statsHtml;
-                    document.getElementById('stats-results').classList.add('show');
                 })
                 .catch(error => {
                     showError('خطا در بارگذاری آمار: ' + error.message);
                 });
+        }
+
+        // آمار شخصی
+        function loadPersonalStats() {
+            const totalFals = history.length;
+            const totalFavorites = favorites.length;
+            const mostUsedMood = getMostUsedMood();
+            
+            const personalStatsHtml = `
+                <div class="stat-card">
+                    <div class="stat-number">${totalFals}</div>
+                    <div class="stat-label">تعداد فال‌ها</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${totalFavorites}</div>
+                    <div class="stat-label">علاقه‌مندی‌ها</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${mostUsedMood || 'N/A'}</div>
+                    <div class="stat-label">حالت پرکاربرد</div>
+                </div>
+            `;
+            
+            document.getElementById('stats-content').innerHTML = personalStatsHtml;
+        }
+
+        // پیدا کردن حالت پرکاربرد
+        function getMostUsedMood() {
+            const moodCounts = {};
+            history.forEach(item => {
+                if (item.mood) {
+                    moodCounts[item.mood] = (moodCounts[item.mood] || 0) + 1;
+                }
+            });
+            
+            let maxCount = 0;
+            let mostUsedMood = null;
+            
+            for (const [mood, count] of Object.entries(moodCounts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    mostUsedMood = mood;
+                }
+            }
+            
+            return mostUsedMood ? getMoodName(mostUsedMood) : null;
+        }
+
+        // دریافت نام حالت
+        function getMoodName(mood) {
+            const moodNames = {
+                'happy': 'خوشحال',
+                'sad': 'غمگین',
+                'confused': 'سردرگم',
+                'hopeful': 'امیدوار',
+                'worried': 'نگران'
+            };
+            return moodNames[mood] || mood;
         }
 
         // نمایش خطا
@@ -678,6 +1422,11 @@
             document.getElementById('content').style.display = 'block';
             document.getElementById('content').innerHTML = `<div class="error">${message}</div>`;
             document.getElementById('result').classList.add('show');
+        }
+
+        // برگشت به بالا
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Event listeners
@@ -691,6 +1440,18 @@
             if (e.key === 'Enter') {
                 getSpecificGhazal();
             }
+        });
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            // تنظیم تم
+            const themeBtn = document.querySelector('.theme-toggle');
+            themeBtn.textContent = theme === 'light' ? '🌙' : '☀️';
+            
+            // نمایش پیام خوش‌آمدگویی
+            setTimeout(() => {
+                showNotification('🌹 به هافظ هستی خوش آمدید', 'success');
+            }, 1000);
         });
     </script>
 </body>

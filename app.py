@@ -144,29 +144,54 @@ def random_numbers():
     numbers = [random.randint(1, 495) for _ in range(10)]
     return jsonify({'numbers': numbers})
 
-@app.route('/get_interpretation', methods=['POST'])
-def get_interpretation():
-    """تفسیر هوش مصنوعی (فعلاً نمونه)"""
-    data = request.json
-    ghazal_text = data.get('text', '')
-    ghazal_number = data.get('number', 0)
-    
-    if not ghazal_text:
-        return jsonify({'error': 'متن غزل خالی است'}), 400
-    
-    # فعلاً تفسیر ساده
-    word_count = len(ghazal_text.split())
-    interpretation = f"""
-    🔮 تفسیر فال:
-    
-    این غزل شماره {ghazal_number} از حافظ شیرازی حاوی {word_count} کلمه است.
-    
-    💫 پیام کلی: این غزل نشان‌دهنده عمق عرفان و عشق در اندیشه حافظ است.
-    
-    🌟 راهنمایی: با صبر و شکیبایی، مسیر خود را ادامه دهید.
-    """
-    
-    return jsonify({'interpretation': interpretation.strip()})
+@app.route('/get_ai_interpretation', methods=['POST'])
+def get_ai_interpretation():
+    """دریافت تفسیر از دیتابیس"""
+    try:
+        data = request.json
+        ghazal_number = data.get('number', 0)
+        interpretation_type = data.get('type', 'fal')
+        
+        conn = sqlite3.connect('database/hafez.db')
+        cursor = conn.cursor()
+        
+        # جستجو در دیتابیس
+        cursor.execute('''
+            SELECT i.interpretation, i.source 
+            FROM interpretations i
+            JOIN ghazals g ON i.ghazal_id = g.id
+            WHERE g.number = ? AND i.interpretation_type = ?
+        ''', (ghazal_number, interpretation_type))
+        
+        result = cursor.fetchone()
+        conn.close()
+        
+        if result:
+            interpretation, source = result
+            return jsonify({
+                'success': True,
+                'interpretation': interpretation,
+                'source': f'database-{source}'
+            })
+        else:
+            # اگه تو دیتابیس نبود، تفسیر پیش‌فرض
+            from utils.ai_helper import get_fallback_interpretation
+            fallback = get_fallback_interpretation("", ghazal_number)
+            return jsonify({
+                'success': True,
+                'interpretation': fallback,
+                'source': 'fallback'
+            })
+            
+    except Exception as e:
+        # در صورت خطا، fallback
+        from utils.ai_helper import get_fallback_interpretation
+        fallback = get_fallback_interpretation("", ghazal_number)
+        return jsonify({
+            'success': True,
+            'interpretation': fallback,
+            'source': 'error-fallback'
+        })
 
 @app.errorhandler(404)
 def not_found(error):
