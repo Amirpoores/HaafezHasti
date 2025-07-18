@@ -1,0 +1,10 @@
+svg xmlns=httpwww.w3.org2000svg width=160 height=160 viewBox=0 0 160 160
+  defs
+    pattern id=iran width=40 height=40 patternUnits=userSpaceOnUse
+      path d=M0 0L40 40ZM40 0L0 40Z
+            stroke=#ffffff stroke-width=0.7 opacity=0.07
+      circle cx=20 cy=20 r=2 fill=#ffffff opacity=0.08
+    pattern
+  defs
+  rect width=160 height=160 fill=url(#iran)
+svg

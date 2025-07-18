@@ -1,0 +1,166 @@
+/* ================= ui-minimal.css  (نسخهٔ کامل) ================= */
+
+/* ===== پس‌زمینهٔ سه‌لایه: Pattern SVG + گرادیان ملایم + عکس شما ===== */
+body{
+  margin:0;
+  font-family:'Vazir',Tahoma,sans-serif;
+  color:#222;
+  text-align:center;
+
+  background:
+      url("/static/img/iran-pattern.svg"),                    /* لایهٔ 1: پترن */
+      linear-gradient(rgba(0,0,0,.30), rgba(0,0,0,.30)),      /* لایهٔ 2: گرادیان */
+      url("/static/img/bg-custom.webp");                      /* لایهٔ 3: عکس */
+  background-size: 180px 180px , cover , cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+/* خورشید / ماه (بسته به ساعت) */
+#sun-moon{
+  position:fixed;top:60px;left:50%;width:90px;height:90px;margin-left:-45px;
+  border-radius:50%;background:#ffd86c;box-shadow:0 0 25px 8px #ffd86c80;
+  transition:all 1s ease;z-index:-1;
+}
+body.night #sun-moon{
+  background:#dfe7ff;box-shadow:0 0 18px 6px #dfe7ff80;
+  transform:rotate(180deg);
+}
+
+/* ذرات نرم در آسمان */
+#sky-layer{position:fixed;inset:0;pointer-events:none;z-index:-2;}
+#sky-layer span{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:#fff;opacity:.4;animation:float 10s linear infinite;
+}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-1000px)}}
+
+/* ---------------- هدر ---------------- */
+header{
+  padding:1.1rem 0;
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(6px);
+}
+h1{
+  font-size:1.6rem;
+  color:#fff;
+  margin:0;
+  text-shadow:0 2px 7px #000;
+}
+
+/* ---------------- کانتینر ---------------- */
+.wrapper{
+  max-width:760px;
+  margin:2rem auto;
+  padding:0 1rem;
+}
+
+/* ---------------- تب‌ها ---------------- */
+.tabs{
+  display:flex;
+  justify-content:center;
+  margin-bottom:1.4rem;
+}
+.tab{
+  flex:1;
+  border:none;
+  padding:.7rem 0;
+  cursor:pointer;
+  background:rgba(255,255,255,.2);
+  color:#eee;
+}
+.tab.active{
+  background:#ffd86c;
+  color:#222;
+  font-weight:600;
+}
+
+/* ---------------- پنل‌های هر تب ---------------- */
+.pane{display:none;margin-bottom:1.2rem}
+.pane.active{display:block}
+
+/* ---------------- ورودی‌ها و دکمه‌ها ---------------- */
+input{
+  padding:.55rem .9rem;
+  border:1px solid #bbb;
+  border-radius:8px;
+  width:190px;
+  font-family:inherit;
+}
+.btn{
+  padding:.55rem 1.3rem;
+  border:none;
+  border-radius:8px;
+  background:#ffd86c;
+  cursor:pointer;
+  margin:.3rem;
+}
+.btn.big{font-size:1.05rem;width:60%}
+
+/* ---------------- لیست پیشنهاد جستجو ---------------- */
+.suggest{
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:8px;
+  max-height:220px;
+  overflow-y:auto;
+  text-align:right;
+}
+.suggest div{
+  padding:.55rem;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+.suggest div:hover{background:#fffbe6}
+
+/* ---------------- کارت‌های عمومی ---------------- */
+.card{
+  background:rgba(255,255,255,.8);
+  backdrop-filter:blur(8px);
+  border-radius:14px;
+  border:1px solid #ccc;
+  padding:1.4rem;
+  text-align:right;
+  margin:1.6rem auto;
+}
+.loading{padding:2rem;text-align:center;font-style:italic}
+
+/* متن غزل و تفسیر */
+.gh-text{
+  white-space:pre-line;
+  font-size:1.25rem;
+  line-height:2.4rem;
+  margin-bottom:1rem;
+  font-family:'Noto Nastaliq Urdu','Amiri',serif;
+}
+.interp{
+  white-space:pre-line;
+  background:#fafafa;
+  border:1px solid #ddd;
+  padding:1rem;
+  border-radius:8px;
+  font-size:.94rem;
+}
+
+/* کادر معرفی */
+.about p{text-align:justify;line-height:1.9}
+
+/* مصرع روز */
+#quote-box h3{margin-top:0;text-align:center}
+
+/* لینک‌های هایلایت شده */
+mark{background:#fffd88}
+
+/* ---------------- فوتر ---------------- */
+footer{
+  color:#ddd;
+  font-size:.85rem;
+  margin:3rem 0;
+}
+
+/* ---------------- ریسپانسیو ---------------- */
+@media(max-width:600px){
+  .gh-text{font-size:1.1rem;line-height:2.1rem}
+  input{width:100%;}
+  .btn.big{width:100%;}
+}

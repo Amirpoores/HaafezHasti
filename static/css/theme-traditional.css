@@ -1,0 +1,91 @@
+/* ========= تم سنتی ========= */
+
+:root{
+  --overlay-dark : rgba(0,0,0,.45);
+  --text-color   : #faf5ee;
+  --gold         : #c9a55c;
+  --radius       : 16px;
+  --font-sans    : 'Vazir', Tahoma, sans-serif;
+  --font-nasta   : 'Noto Nastaliq Urdu','Amiri',serif;
+}
+
+/* پس‌زمینهٔ کلی */
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  color:var(--text-color);
+  background:
+      linear-gradient(var(--overlay-dark), var(--overlay-dark)),
+      url("/static/img/faal1.png") center/cover fixed no-repeat;
+}
+
+/* کانتینر */
+.wrapper{max-width:980px;margin:0 auto;padding:0 1rem;}
+
+/* تیتر / دکمه سایه */
+h1,h2,h3,p,button{text-shadow:0 2px 7px rgba(0,0,0,.35);}
+
+/* HERO */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.hero h1{font-size:clamp(1.8rem,4vw+.5rem,2.6rem);margin:.4rem 0;color:var(--gold);animation:fadeUp 1.2s both;}
+.hero p{opacity:.9;margin-bottom:2.2rem;max-width:600px}
+.btn-main{
+  background:var(--gold);color:#1e1c48;border:none;border-radius:var(--radius);
+  padding:.8rem 2rem;font-size:1rem;cursor:pointer;transition:.3s;
+}
+.btn-main:hover{transform:translateY(-3px);}
+
+/* GHAZAL SECTION */
+#ghazal{text-align:center;margin-top:3rem;}
+#ghazal h2{color:var(--gold);margin-bottom:1rem}
+.ghazal-button{
+  background:var(--gold);color:#1e1c48;border:none;border-radius:var(--radius);
+  padding:.6rem 1.2rem;font-size:.95rem;cursor:pointer;margin:.25rem;transition:.3s;
+}
+.ghazal-button:hover{transform:translateY(-2px);}
+.input-group{margin:1rem 0;}
+input[type="number"],input[type="text"]{
+  width:160px;font-size:.9rem;padding:.55rem .8rem;
+  border:2px solid var(--gold);border-radius:var(--radius);
+  background:rgba(0,0,0,.15);color:#fff;
+}
+input::placeholder{color:#eee;}input:focus{outline:none;box-shadow:0 0 0 2px var(--gold);}
+
+/* نتیجه */
+.result{display:none;margin-top:2rem;}
+.result.show{display:block;}
+.loading{font-style:italic;color:#eee}
+
+/* غزل در قاب */
+.ghazal-card{
+  position:relative;max-width:780px;margin:2rem auto;padding:90px 60px;
+  background:url("/static/img/paper-frame.png") center/contain no-repeat;
+  text-align:center;color:#111;animation:fadeIn .6s ease;
+}
+.ghazal-text{
+  font-family:var(--font-nasta);
+  font-size:clamp(1.2rem,2.5vw+.4rem,1.7rem);
+  line-height:clamp(2rem,3vw+.4rem,2.5rem);
+  white-space:pre-line;direction:rtl;
+}
+.interpretation-text{
+  white-space:pre-line;margin:2rem auto;max-width:780px;line-height:1.9rem;
+  background:rgba(0,0,0,.25);backdrop-filter:blur(6px);
+  padding:1.5rem;border-radius:var(--radius);font-size:.95rem;
+}
+
+/* ذرات نور */
+.spark-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1;}
+.spark{position:absolute;width:4px;height:4px;background:#ffd67f;border-radius:50%;opacity:.8;
+       animation:spark 6s linear infinite;}
+@keyframes spark{0%{transform:translateY(0) scale(.4);}100%{transform:translateY(-800px) scale(1);opacity:0;}}
+
+/* انیمیشن‌ها */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+/* ریسپانسیو */
+@media(max-width:600px){
+  .ghazal-card{padding:70px 40px;}
+  .ghazal-text{font-size:1.2rem;line-height:2.3rem;}
+}
